@@ -74,7 +74,8 @@ export const moviesSlice = createSlice({
 			state.currentPage = action.payload
 		},
 		setSearchPattern: (state, action) => {
-			state.searchPattern = action.payload
+			state.searchPattern = action.payload;
+			state.movies.Search = [];
 			state.movies.Response = "false";
 		},
 		removeFromFavorite: (state, action) => {

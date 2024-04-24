@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import {Col, Container, Row} from "react-bootstrap";
 import CardMovie from "../CardMovie.tsx";
 import MoviesPaginator from "../MoviesPaginator.tsx";
-import {addToFavorite} from "../../slices/MoviesSlice.ts";
+import {addToFavorite, setSearchPattern} from "../../slices/MoviesSlice.ts";
 import "./index.css"
 
 
@@ -16,8 +16,9 @@ const ListSearch: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		dispatch(setSearchPattern(""));
+	}, []);
 
-	}, [favorite]);
 	const handleClick = (imdbID: string) => {
 		if (favorite.some(item => item.imdbID === imdbID)) return;
 		const element = document.getElementById(imdbID);
