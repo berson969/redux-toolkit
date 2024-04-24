@@ -17,10 +17,14 @@ export const fetchMovies =
 		"search/fetchMovies",
 		async ({ searchPattern, currentPage }: { searchPattern: string, currentPage: number }, { rejectWithValue }) => {
 			try {
-
-				const response = await fetch(
-					`${import.meta.env.VITE_BASE_URL}&s=${searchPattern}&page=${currentPage}`
-				);
+				const urlQuery = new URL(import.meta.env.VITE_BASE_URL);
+				const params = new URLSearchParams();
+				params.set("apikey", import.meta.env.VITE_APIKEY);
+				params.set("type", "movie");
+				params.set("s", searchPattern);
+				params.set("page", currentPage.toString());
+				urlQuery.search = params.toString();
+				const response = await fetch(urlQuery);
 
 				if (!response.ok) {
 					return rejectWithValue("Loading error!");
@@ -40,10 +44,12 @@ export const addToFavorite =
 		"search/addToFavorite",
 		async (imdbID: string, { rejectWithValue }) => {
 			try {
-
-				const response = await fetch(
-					`${import.meta.env.VITE_BASE_URL}&i=${imdbID}`
-				);
+				const urlQuery = new URL(import.meta.env.VITE_BASE_URL);
+				const params = new URLSearchParams();
+				params.set("apikey", import.meta.env.VITE_APIKEY);
+				params.set("i", imdbID);
+				urlQuery.search = params.toString();
+				const response = await fetch(urlQuery);
 
 				if (!response.ok) {
 					return rejectWithValue("Loading error!");

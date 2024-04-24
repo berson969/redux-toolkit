@@ -1,25 +1,39 @@
-import React from 'react';
-import {useAppDispatch, useAppSelector} from "../hooks";
+import React, {useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from "../../hooks";
 import {Col, Container, Row} from "react-bootstrap";
-import CardMovie from "./CardMovie.tsx";
-import MoviesPaginator from "./MoviesPaginator.tsx";
-import {addToFavorite} from "../slices/MoviesSlice.ts";
-import "../css/animations.css"
+import CardMovie from "../CardMovie.tsx";
+import MoviesPaginator from "../MoviesPaginator.tsx";
+import {addToFavorite} from "../../slices/MoviesSlice.ts";
+import "./index.css"
 
 
 const ListSearch: React.FC = () => {
 	const { movies: { Search:  movieList, totalResults, Response },
+		favorite,
 		searchPattern,
 		loading,
 		error } = useAppSelector((state) => state.movies);
 	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+
+	}, [favorite]);
 	const handleClick = (imdbID: string) => {
+		if (favorite.some(item => item.imdbID === imdbID)) return;
 		const element = document.getElementById(imdbID);
+
 		if (element) {
-			element.classList.add("fly-up-left");
+			const copyElement = element.cloneNode(true) as HTMLElement;
+			element.appendChild(copyElement);
+
+			copyElement.style.setProperty('--animation-end-y', `-${window.innerHeight}px`);
+			copyElement.style.setProperty('--animation-end-x', `${window.innerWidth-200}px`);
+
+			copyElement.classList.add("fly-up-left");
+			dispatch(addToFavorite(imdbID));
 			setTimeout(() => {
-				dispatch(addToFavorite(imdbID));
-			}, 1000);
+				copyElement.remove();
+			}, 500);
 		}
 	};
 
@@ -41,7 +55,7 @@ const ListSearch: React.FC = () => {
 					<MoviesPaginator />
 					<Row className="d-flex flex-wrap g-5 justify-content-center">
 						{movieList.map(movie => (
-							<Col key={movie.imdbID} onClick={() => handleClick(movie.imdbID)}>
+							<Col key={movie.imdbID} onClick={() => handleClick(movie.imdbID)} className="position-relative">
 								<CardMovie movie={movie} />
 							</Col>
 						))}

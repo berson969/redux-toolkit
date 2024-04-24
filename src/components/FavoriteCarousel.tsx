@@ -17,6 +17,8 @@ const FavoriteCarousel: React.FC = () => {
 		setIndex(selectedIndex);
 	};
 
+	console.log(favorite)
+
 	return (
 			<Container className="mt-5">
 						<Carousel fade activeIndex={index} onSelect={handleSelect}>

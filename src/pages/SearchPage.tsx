@@ -1,7 +1,7 @@
 import React from 'react';
 import Menu from "../components/Menu.tsx";
 import FormSearch from "../components/FormSearch.tsx";
-import ListSearch from "../components/ListSearch.tsx";
+import ListSearch from "../components/ListSearch/ListSearch.tsx";
 
 const SearchPage: React.FC = () => {
 	return (

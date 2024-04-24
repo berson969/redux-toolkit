@@ -1,0 +1,16 @@
+@keyframes flyUpLeft {
+	0% {
+		opacity: 1;
+		transform: translateY(0) translateX(0);
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(var(--animation-end-y)) translateX(var(--animation-end-x));
+	}
+}
+
+.fly-up-left {
+	position: absolute;
+	top: 0;
+	animation: flyUpLeft 0.5s ease-out forwards;
+}
