@@ -1,19 +1,28 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import {BrowserRouter, Outlet, Route, Routes} from "react-router-dom";
+import "./index.css";
 import Menu from "./components/Menu.tsx";
-import SearchPage from "./pages/SearchPage.tsx";
-import FavoritePage from "./pages/FavoritePage.tsx";
+import {useAppSelector} from "./hooks";
+import FormSearch from "./components/FormSearch.tsx";
+import ListSearch from "./components/ListSearch/ListSearch.tsx";
+import FavoriteCarousel from "./components/FavoriteCarousel.tsx";
 
-function App() {
+
+function App()  {
+	const typePage = useAppSelector(state => state.typePage);
 	return (
-	  <BrowserRouter>
-		  <Routes>
-			  <Route path="/" element={<Menu />}></Route>
-			  <Route path="/search" element={<SearchPage />}></Route>
-			  <Route path="/favorite" element={<FavoritePage />}></Route>
-		  </Routes>
-		  <Outlet />
-	  </BrowserRouter>
-  )
+		<div>
+			<Menu />
+			{typePage === "search" &&
+				<div>
+					<FormSearch />
+					<ListSearch />
+				</div>
+			}
+			{typePage === "favorite" &&
+				<FavoriteCarousel />
+			}
+		</div>
+	);
 }
+
 export default App

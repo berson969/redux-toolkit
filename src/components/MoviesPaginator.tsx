@@ -5,7 +5,9 @@ import {fetchMovies, setCurrentPage} from "../slices/MoviesSlice.ts";
 
 const MoviesPaginator : React.FC = () => {
 	const dispatch = useAppDispatch();
-	const { currentPage, searchPattern, movies: { totalResults }} = useAppSelector(state => state.movies);
+	const searchPattern = useAppSelector(state => state.searchPattern);
+	const totalResults = useAppSelector(state => state.movies.totalResults);
+	const currentPage = useAppSelector(state => state.currentPage);
 
 	const totalPages = Math.ceil(Number(totalResults) / 10);
 	const startPage = Math.max(1, currentPage - 4);

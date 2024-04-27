@@ -19,6 +19,7 @@ export interface MoviesState {
 	searchPattern: string;
 	loading: boolean;
 	error: string;
+	typePage: 'search' | 'favorite' | '';
 }
 
 export interface CardMovieProps {
@@ -35,4 +36,9 @@ export interface FavoriteType {
 	Director: string;
 	Actors: string;
 	imdbRating: string;
+}
+
+export interface ActionProps {
+	type: string;
+	payload: any;
 }

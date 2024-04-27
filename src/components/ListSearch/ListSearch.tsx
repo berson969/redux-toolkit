@@ -1,18 +1,24 @@
 import React, {useEffect} from 'react';
+import "./index.css";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {Col, Container, Row} from "react-bootstrap";
 import CardMovie from "../CardMovie.tsx";
 import MoviesPaginator from "../MoviesPaginator.tsx";
 import {addToFavorite, setSearchPattern} from "../../slices/MoviesSlice.ts";
-import "./index.css"
+import SpinComponent from "../SpinComponent.tsx";
+import ErrorComponent from "../ErrorComponent.tsx";
+
 
 
 const ListSearch: React.FC = () => {
-	const { movies: { Search:  movieList, totalResults, Response },
-		favorite,
-		searchPattern,
-		loading,
-		error } = useAppSelector((state) => state.movies);
+	const movieList = useAppSelector(state => state.movies.Search);
+	const totalResults = useAppSelector(state => state.movies.totalResults);
+	const Response = useAppSelector(state => state.movies.Response);
+	const favorite = useAppSelector(state => state.favorite);
+	// const searchPattern = useAppSelector(state => state.searchPattern);
+	const loading = useAppSelector(state => state.loading);
+	const error = useAppSelector(state => state.error);
+
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -39,19 +45,11 @@ const ListSearch: React.FC = () => {
 	};
 
 	return (
-		searchPattern && Boolean(Response) ? (
-			movieList.length === 0 ? (
-				<Container className="text-center">
-					<h2>Ничего не найдено</h2>
-				</Container>
-			) : (
-				<Container className="text-center">
-					{loading && (
-						<div className="spinner-border text-info" role="status">
-							<span className="visually-hidden">Подождите идет загрузка...</span>
-						</div>
-					)}
-					{error && <h4>{error}</h4>}
+		<Container className="text-center">
+			{loading && <SpinComponent />}
+			{error && <ErrorComponent error={error} />}
+			{!loading && !error && Response === 'True' &&
+				<div>
 					<h2 className="text-center m-5">Найдено всего {totalResults} фильмов</h2>
 					<MoviesPaginator />
 					<Row className="d-flex flex-wrap g-5 justify-content-center">
@@ -61,9 +59,9 @@ const ListSearch: React.FC = () => {
 							</Col>
 						))}
 					</Row>
-				</Container>
-			)
-		) : null
+				</div>
+			}
+		</Container>
 	);
 };
 

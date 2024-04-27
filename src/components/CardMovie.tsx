@@ -10,6 +10,7 @@ const  CardMovie: React.FC<CardMovieProps> = ({ movie} ) => {
 			<Card.Img
 				variant="top"
 				src={Poster === "N/A" ? "http://dummyimage.com/286x440/99cccc.gif&text=Poster+is+not+available" : Poster}
+				alt="Poster is loading..."
 			/>
 			<Card.Body>
 				<Card.Title>{Title}</Card.Title>
